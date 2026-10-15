@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>亲爱的汪小妹妹 · 生日快乐</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23EF6F9C' d='M12 21s-7.5-4.6-9.5-9C.9 8.7 2.6 5.5 5.9 5.5c1.8 0 3.4.9 4.4 2.3a5.2 5.2 0 0 1 4.4-2.3c3.3 0 5 3.2 3.4 6.5-2 4.4-9.5 9-9.5 9z'/></svg>">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+  :root{
+    --bg1:#FFF4F1;
+    --bg2:#FFE7E3;
+    --pink:#EF6F9C;
+    --pink-soft:#F9A8C4;
+    --gold:#F6C453;
+    --cream:#FFFDFB;
+    --ink:#5C4B4A;
+    --ink-soft:#8A7472;
+    --shadow:0 18px 40px -18px rgba(214,120,150,.5);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:"Noto Sans SC",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:linear-gradient(180deg,var(--bg1),var(--bg2) 40%,#FFD9D4 100%);
+    color:var(--ink);
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+  }
+  /* 柔和噪点材质 */
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+  }
+  .wrap{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:0 20px 60px}
+
+  /* ===== 开场星空倒计时 ===== */
+  .intro{
+    position:fixed;inset:0;z-index:100;overflow:hidden;
+    background:#140e2b url("https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/MC4CbnYueozdBCxd2xBcUM2gnXM") center/cover no-repeat;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:#fff;text-align:center;
+    transition:opacity .8s ease, visibility .8s ease;
+  }
+  .intro.hide{opacity:0;visibility:hidden;pointer-events:none}
+  .intro::after{content:"";position:absolute;inset:0;background:rgba(12,8,22,.40)}
+  .intro .inner{position:relative;z-index:2;padding:0 26px;display:flex;flex-direction:column;align-items:center}
+  .intro .intro-label{font-size:14px;letter-spacing:6px;color:rgba(255,255,255,.95);margin-bottom:18px;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+  /* 点击开始后：居中显示搞怪自拍照卡片，倒计时叠加在照片上 */
+  .intro-photo{
+    display:none;position:relative;
+    width:min(74vw,300px);aspect-ratio:9/16;border-radius:22px;overflow:hidden;
+    border:3px solid rgba(255,255,255,.4);
+    box-shadow:0 0 40px rgba(138,120,255,.5),0 22px 40px -18px rgba(0,0,0,.6);
+    margin-bottom:22px;
+  }
+  .intro-photo.show{display:block}
+  .intro-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .intro-btn{
+    border:none;cursor:pointer;font-family:"Noto Sans SC",sans-serif;
+    background:linear-gradient(120deg,#8f7bff,#6a55e8);
+    color:#fff;font-size:21px;font-weight:700;letter-spacing:7px;
+    padding:16px 52px;border-radius:999px;
+    box-shadow:0 0 30px rgba(138,120,255,.6),0 14px 30px -12px rgba(90,75,216,.7);
+    transition:transform .15s;
+  }
+  .intro-btn:active{transform:scale(.94)}
+  .intro-count{
+    display:none;
+    position:absolute;inset:0;align-items:center;justify-content:center;
+    font-family:"Noto Serif SC",serif;font-size:112px;font-weight:900;line-height:1;
+    text-shadow:0 0 26px rgba(0,0,0,.55),0 0 60px rgba(255,255,255,.4);
+    color:#fff;
+  }
+  .intro-count.show{display:flex}
+  .intro-count.pulse{animation:pulse .95s cubic-bezier(.22,1,.36,1)}
+  @keyframes pulse{0%{transform:scale(1.35);opacity:.4}100%{transform:scale(1);opacity:1}}
+  .intro .intro-tip{margin-top:26px;font-size:14px;color:rgba(255,255,255,.7);letter-spacing:1px}
+  .intro .intro-tip svg{width:16px;height:16px;vertical-align:-3px;margin-right:6px}
+  /* 流星 */
+  .meteor{position:absolute;z-index:1;width:150px;height:2px;border-radius:2px;
+    background:linear-gradient(90deg,#fff,rgba(255,255,255,0));opacity:0}
+  .m1{top:12%;right:-160px;animation:meteor 2.4s ease-in infinite}
+  .m2{top:30%;right:-60px;animation:meteor 3.1s ease-in .7s infinite}
+  .m3{top:52%;right:-200px;animation:meteor 2.8s ease-in 1.4s infinite}
+  .m4{top:70%;right:-120px;animation:meteor 3.4s ease-in 2s infinite}
+  @keyframes meteor{
+    0%{transform:translate3d(0,0,0) rotate(-32deg);opacity:0}
+    8%{opacity:1}
+    32%{opacity:.9}
+    60%{transform:translate3d(-460px,300px,0) rotate(-32deg);opacity:0}
+    100%{transform:translate3d(-460px,300px,0) rotate(-32deg);opacity:0}
+  }
+
+  /* ===== 漂浮装饰层 ===== */
+  .deco{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .deco span{position:absolute;opacity:.8;animation:float ease-in-out infinite}
+  .deco .heart{width:26px;height:24px;animation-duration:6s}
+  .deco .star{width:20px;height:20px;animation-duration:7s}
+  .deco .cloud{width:64px;height:auto;opacity:.55;animation-duration:9s}
+  .d1{top:6%;left:8%}
+  .d2{top:14%;right:9%;animation-delay:1.2s}
+  .d3{top:30%;left:5%;animation-delay:.6s;transform:scale(.7)}
+  .d4{top:42%;right:6%;animation-delay:2s;transform:scale(.8)}
+  .d5{top:58%;left:10%;animation-delay:1.6s;transform:scale(.6)}
+  .d6{top:68%;right:10%;animation-delay:.3s}
+  @keyframes float{
+    0%,100%{transform:translateY(0) rotate(0)}
+    50%{transform:translateY(-14px) rotate(6deg)}
+  }
+
+  /* ===== 音乐开关 ===== */
+  .music-btn{
+    position:fixed;top:16px;right:16px;z-index:20;
+    width:52px;height:52px;border-radius:50%;
+    border:2px solid rgba(239,111,156,.35);
+    background:rgba(255,253,251,.85);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;box-shadow:var(--shadow);
+    transition:transform .2s;
+  }
+  .music-btn:active{transform:scale(.9)}
+  .music-btn .note{color:var(--pink)}
+  .music-btn .eq{display:none;gap:3px;align-items:flex-end;height:18px}
+  .music-btn.playing .note{display:none}
+  .music-btn.playing .eq{display:flex}
+  .music-btn .eq i{width:4px;background:var(--pink);border-radius:2px;animation:eq 1s ease-in-out infinite}
+  .music-btn .eq i:nth-child(1){height:8px}
+  .music-btn .eq i:nth-child(2){height:14px;animation-delay:.2s}
+  .music-btn .eq i:nth-child(3){height:10px;animation-delay:.4s}
+  .music-btn .eq i:nth-child(4){height:16px;animation-delay:.1s}
+  @keyframes eq{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1)}}
+  .mute-hint{
+    position:fixed;top:74px;right:16px;z-index:20;
+    font-size:12px;color:var(--ink-soft);background:rgba(255,253,251,.8);
+    padding:5px 10px;border-radius:12px;display:none;align-items:center;gap:6px;
+  }
+
+  /* ===== Hero ===== */
+  header{text-align:center;padding:40px 0 18px}
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;letter-spacing:3px;color:var(--pink);
+    background:rgba(255,255,255,.7);border:1px solid rgba(239,111,156,.25);
+    padding:7px 16px;border-radius:999px;
+  }
+  .kicker svg{width:15px;height:15px}
+  .hero-img{
+    width:min(78vw,320px);height:auto;margin:22px auto 10px;
+    border-radius:28px;box-shadow:var(--shadow);
+    display:block;border:6px solid var(--cream);
+  }
+  h1{
+    font-family:"Noto Serif SC",serif;
+    font-size:clamp(30px,8vw,42px);font-weight:900;line-height:1.2;
+    background:linear-gradient(120deg,#EF6F9C,#C94B7B);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin-top:10px;
+  }
+  .sub{
+    margin-top:6px;font-size:15px;color:var(--ink-soft);
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .sub svg{width:16px;height:16px;color:var(--gold)}
+
+  /* ===== 祝福卡片 ===== */
+  .card{
+    background:var(--cream);border-radius:26px;padding:26px 22px;
+    margin-top:22px;box-shadow:var(--shadow);
+    border:1px solid rgba(239,111,156,.15);
+  }
+  .card h2{font-family:"Noto Serif SC",serif;font-size:19px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+  .card h2 svg{width:18px;height:18px;color:var(--pink)}
+  .wish-quote{
+    margin-top:14px;font-size:16px;line-height:1.9;color:var(--ink);
+    background:linear-gradient(120deg,#FFF0F2,#FFE7EC);
+    border-left:4px solid var(--pink);
+    padding:14px 16px;border-radius:12px;font-weight:500;
+  }
+  .wish-extra{margin-top:12px;font-size:14.5px;line-height:1.95;color:var(--ink-soft)}
+
+  /* ===== 蜡烛互动 ===== */
+  .cake-card{margin-top:22px}
+  .cake-stage{
+    background:linear-gradient(160deg,#FFF7F4,#FFE9E4);
+    border:2px dashed rgba(239,111,156,.4);
+    border-radius:26px;padding:26px 16px 30px;text-align:center;
+    min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  }
+  .cake-stage .hint{font-size:14px;color:var(--ink-soft);margin-bottom:8px;min-height:22px}
+  .cake-wrap{position:relative;width:min(80vw,300px)}
+  .cake-wrap svg{width:100%;height:auto;display:block}
+  .flame{display:none;position:absolute;width:26px;height:38px;transform:translate(-50%,-100%);animation:blaze 0.5s ease-in-out infinite alternate}
+  .flame .fcore{position:absolute;inset:0;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:radial-gradient(circle at 50% 72%,#FFE28A 0%,#F6C453 38%,#F09B4A 70%,rgba(240,120,70,.6) 100%)}
+  .flame::after{content:"";position:absolute;left:50%;bottom:0;width:8px;height:10px;transform:translateX(-50%);background:rgba(255,170,90,.9);filter:blur(6px)}
+  @keyframes blaze{0%{transform:translate(-50%,-100%) scale(1) rotate(-4deg)}100%{transform:translate(-50%,-100%) scale(1.08) rotate(4deg)}}
+  .cake-wrap.lit .flame{display:block}
+  .cake-wrap.lit{animation:wiggle .6s ease-in-out}
+  @keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-2deg)}75%{transform:rotate(2deg)}}
+  .cake-wrap.blown .flame{display:none}
+  .smoke{position:absolute;display:none;animation:smoke 1.2s ease-out forwards}
+  @keyframes smoke{0%{opacity:.7;transform:translateY(0) scale(.8)}100%{opacity:0;transform:translateY(-46px) scale(1.4)}}
+
+  .cake-btn{
+    margin-top:20px;border:none;cursor:pointer;
+    background:linear-gradient(120deg,var(--pink),#E0608F);
+    color:#fff;font-size:16px;font-weight:700;letter-spacing:1px;
+    padding:14px 34px;border-radius:999px;box-shadow:0 12px 24px -10px rgba(239,111,156,.7);
+    transition:transform .15s;font-family:inherit;
+  }
+  .cake-btn:active{transform:scale(.95)}
+  .cake-btn.alt{background:linear-gradient(120deg,#F6C453,#E8A93C);color:#6b4d00;box-shadow:0 12px 24px -10px rgba(230,170,60,.7)}
+  .celebrate{display:none;text-align:center}
+  .celebrate.show{display:block;animation:pop .6s cubic-bezier(.22,1,.36,1)}
+  @keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+  .celebrate .big{font-family:"Noto Serif SC",serif;font-size:26px;font-weight:900;color:var(--pink);margin-top:14px}
+  .celebrate .small{font-size:15px;color:var(--ink-soft);margin-top:8px;line-height:1.7}
+  .celebrate .hearts{display:flex;gap:14px;justify-content:center;margin-top:14px}
+  .celebrate .hearts svg{width:26px;height:26px;color:var(--pink);animation:beat 1.1s ease-in-out infinite}
+  .celebrate .hearts svg:nth-child(2){animation-delay:.15s;color:var(--gold)}
+  .celebrate .hearts svg:nth-child(3){animation-delay:.3s}
+  @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.28)}}
+
+  footer{margin-top:30px;text-align:center;color:var(--ink-soft);font-size:13px;letter-spacing:1px}
+  footer .heart-line{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
+  footer .heart-line svg{width:16px;height:16px;color:var(--pink)}
+
+  /* ===== 给她的长文 ===== */
+  .letter-card{display:none;margin-top:22px}
+  .letter-card.show{display:block;animation:pop .6s cubic-bezier(.22,1,.36,1)}
+  .letter{line-height:2;font-size:15.5px;color:var(--ink)}
+  .letter p{margin:0 0 16px;text-align:justify}
+  .letter .letter-head{font-family:"Noto Serif SC",serif;text-align:center;font-size:18px;font-weight:700;color:var(--pink);margin-bottom:18px}
+  .letter img{width:100%;margin:6px 0 14px;display:block}
+  .letter .caption{text-align:center;font-size:12.5px;color:var(--ink-soft);margin:-12px 0 18px}
+  .letter .sign{text-align:right;color:var(--ink-soft);margin-top:8px}
+
+  /* ===== 我看完了 按钮 ===== */
+  .letter-end{text-align:center;margin-top:26px;padding-top:22px;border-top:1px dashed rgba(239,111,156,.35)}
+  .done-btn{
+    border:none;cursor:pointer;font-family:inherit;
+    background:linear-gradient(120deg,#EF6F9C,#E0608F);
+    color:#fff;font-size:17px;font-weight:700;letter-spacing:3px;
+    padding:14px 44px;border-radius:999px;
+    box-shadow:0 12px 24px -10px rgba(239,111,156,.7);
+    transition:transform .15s;
+  }
+  .done-btn:active{transform:scale(.95)}
+  .done-tip{margin-top:12px;font-size:13px;color:var(--ink-soft)}
+
+  /* ===== 中奖弹窗 ===== */
+  .prize-mask{
+    position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+    background:rgba(44,26,40,.55);padding:24px;
+  }
+  .prize-mask.show{display:flex;animation:fadein .3s ease}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .prize-box{
+    width:100%;max-width:360px;border-radius:24px;padding:30px 26px;
+    background:linear-gradient(160deg,#FFF7F4,#FFE7E3);
+    text-align:center;box-shadow:0 30px 60px -20px rgba(90,40,60,.5);
+    border:2px solid rgba(239,111,156,.3);
+    animation:pop .5s cubic-bezier(.22,1,.36,1);
+  }
+  .prize-congrats{
+    display:inline-block;font-family:"Noto Serif SC",serif;font-size:22px;font-weight:900;color:var(--pink);
+    margin-bottom:12px;
+  }
+  .prize-main{font-size:15.5px;line-height:1.8;color:var(--ink)}
+  .prize-note{
+    margin:16px auto;max-width:280px;padding:12px 14px;border-radius:12px;
+    background:rgba(246,196,83,.18);border:1px dashed rgba(214,160,40,.5);
+    color:#8a6a1a;font-size:14.5px;line-height:1.7;
+  }
+  .prize-end{font-size:14px;line-height:1.9;color:var(--ink-soft)}
+  .prize-close{
+    margin-top:20px;border:none;cursor:pointer;font-family:inherit;
+    background:linear-gradient(120deg,#F6C453,#E8A93C);color:#6b4d00;
+    font-size:15px;font-weight:700;letter-spacing:2px;padding:12px 38px;border-radius:999px;
+    box-shadow:0 10px 20px -10px rgba(214,160,40,.6);transition:transform .15s;
+  }
+  .prize-close:active{transform:scale(.94)}
+
+  /* ===== 彩带 ===== */
+  .confetti{position:fixed;top:-20px;z-index:30;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+
+  @media (min-width:768px){
+    .wrap{max-width:560px}
+    .hero-img{width:340px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 开场：星空流星倒计时 ===== -->
+<div class="intro" id="intro">
+  <span class="meteor m1"></span>
+  <span class="meteor m2"></span>
+  <span class="meteor m3"></span>
+  <span class="meteor m4"></span>
+  <div class="inner">
+    <p class="intro-label" id="introLabel">生日惊喜 · 即将开启</p>
+    <div class="intro-photo" id="introPhoto">
+      <img src="assets/new-1.jpg" alt="搞怪自拍">
+      <div class="intro-count" id="introCount">3</div>
+    </div>
+    <button class="intro-btn" id="introBtn">开 始</button>
+  </div>
+</div>
+
+<!-- 漂浮装饰 -->
+<div class="deco" aria-hidden="true">
+  <span class="heart d1"><svg viewBox="0 0 24 24" fill="currentColor" style="width:100%;height:100%"><path d="M12 21s-7.5-4.6-9.5-9C.9 8.7 2.6 5.5 5.9 5.5c1.8 0 3.4.9 4.4 2.3a5.2 5.2 0 0 1 4.4-2.3c3.3 0 5 3.2 3.4 6.5-2 4.4-9.5 9-9.5 9z"/></svg></span>
+  <span class="star d2"><svg viewBox="0 0 24 24" fill="currentColor" style="width:100%;height:100%"><path d="M12 1l2.6 6.3L21 8.1l-4.7 4.3 1.2 6.6L12 15.9 6.5 19l1.2-6.6L3 8.1l6.4-.8z"/></svg></span>
+  <span class="heart d3"><svg viewBox="0 0 24 24" fill="currentColor" style="width:100%;height:100%"><path d="M12 21s-7.5-4.6-9.5-9C.9 8.7 2.6 5.5 5.9 5.5c1.8 0 3.4.9 4.4 2.3a5.2 5.2 0 0 1 4.4-2.3c3.3 0 5 3.2 3.4 6.5-2 4.4-9.5 9-9.5 9z"/></svg></span>
+  <span class="star d4"><svg viewBox="0 0 24 24" fill="currentColor" style="width:100%;height:100%"><path d="M12 1l2.6 6.3L21 8.1l-4.7 4.3 1.2 6.6L12 15.9 6.5 19l1.2-6.6L3 8.1l6.4-.8z"/></svg></span>
+  <span class="cloud d5"><svg viewBox="0 0 64 40" fill="currentColor" style="width:100%;height:100%"><path d="M44 8a14 14 0 0 0-26 4A10 10 0 0 0 18 32h26a12 12 0 0 0 0-24z"/></svg></span>
+  <span class="cloud d6"><svg viewBox="0 0 64 40" fill="currentColor" style="width:100%;height:100%"><path d="M44 8a14 14 0 0 0-26 4A10 10 0 0 0 18 32h26a12 12 0 0 0 0-24z"/></svg></span>
+</div>
+
+<!-- 音乐开关 -->
+<button class="music-btn" id="musicBtn" role="switch" aria-checked="false" aria-label="播放生日快乐歌">
+  <svg class="note" viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px"><path d="M9 3v11.3a4 4 0 1 0 2 3.5V7.2l8-2v9.1a4 4 0 1 0 2 3.5V3z"/></svg>
+  <span class="eq"><i></i><i></i><i></i><i></i></span>
+</button>
+<div class="mute-hint" id="muteHint" style="display:none"></div>
+
+<audio id="bgmA" preload="auto" loop src="assets/birthday-message.mp3"></audio>
+<audio id="bgmB" preload="auto" loop src="assets/felicity.mp3"></audio>
+
+<div class="wrap">
+  <!-- ===== 视图：Hero ===== -->
+  <header>
+    <span class="kicker">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 5.3L19 6l-3.7 4L18 15l-5-2.6L8 15l2.7-5L5 6l5.1 1.3z"/></svg>
+      HAPPY BIRTHDAY
+    </span>
+    <img class="hero-img" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/DqAobRyfAoXk2oxATZHckB0anEb" alt="汪小妹妹戴生日帽比耶的照片">
+    <h1>生日快乐</h1>
+    <p class="sub">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.5-9C.9 8.7 2.6 5.5 5.9 5.5c1.8 0 3.4.9 4.4 2.3a5.2 5.2 0 0 1 4.4-2.3c3.3 0 5 3.2 3.4 6.5-2 4.4-9.5 9-9.5 9z"/></svg>
+      亲爱的汪小妹妹
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.5-9C.9 8.7 2.6 5.5 5.9 5.5c1.8 0 3.4.9 4.4 2.3a5.2 5.2 0 0 1 4.4-2.3c3.3 0 5 3.2 3.4 6.5-2 4.4-9.5 9-9.5 9z"/></svg>
+    </p>
+  </header>
+
+  <!-- ===== 视图：祝福语 ===== -->
+  <section class="card">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3v11.3a4 4 0 1 0 2 3.5V7.2l8-2v9.1a4 4 0 1 0 2 3.5V3z"/></svg>
+      今天你最大
+    </h2>
+    <p class="wish-quote">亲爱的汪小妹妹，今天呢是你的生日！！！你最大，那我就当你一天小弟吧～</p>
+    <p class="wish-extra">愿你的每一天都像这块小蛋糕一样甜，永远开心，被这个世界温柔相待。往后的日子都有我陪着，说好只当一天小弟，可别真使唤我一整年呀。</p>
+  </section>
+
+  <!-- ===== 视图：蜡烛互动 ===== -->
+  <section class="card cake-card">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-1 2-3 4.4-3 7a3 3 0 0 0 6 0c0-2.6-2-5-3-7zM7 21h10v-2H7z"/></svg>
+      吹蜡烛，许个愿
+    </h2>
+    <div class="cake-stage">
+      <p class="hint" id="cakeHint">点下面的按钮，把蜡烛点亮</p>
+      <div class="cake-wrap" id="cakeWrap">
+        <!-- 蜡烛火焰（绝对定位，叠在蜡烛上） -->
+        <div class="flame" style="left:23%;top:31%"><div class="fcore"></div></div>
+        <div class="flame" style="left:50%;top:26%"><div class="fcore"></div></div>
+        <div class="flame" style="left:77%;top:31%"><div class="fcore"></div></div>
+        <div class="flame smoke" style="left:50%;top:26%"></div>
+        <!-- 蛋糕 SVG -->
+        <svg viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="生日蛋糕">
+          <defs>
+            <radialGradient id="cream" cx="50%" cy="40%" r="70%">
+              <stop offset="0%" stop-color="#FFFDFB"/>
+              <stop offset="100%" stop-color="#FFE3DC"/>
+            </radialGradient>
+            <linearGradient id="tier" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FFD6E3"/>
+              <stop offset="100%" stop-color="#F8A9C4"/>
+            </linearGradient>
+          </defs>
+          <!-- 蜡烛 -->
+          <g fill="#FFF">
+            <rect x="56" y="118" width="14" height="54" rx="4"/>
+            <rect x="140" y="100" width="14" height="72" rx="4"/>
+            <rect x="240" y="118" width="14" height="54" rx="4"/>
+            <rect x="56" y="108" width="14" height="8" rx="3" fill="#F6C453"/>
+            <rect x="140" y="90" width="14" height="8" rx="3" fill="#F6C453"/>
+            <rect x="240" y="108" width="14" height="8" rx="3" fill="#F6C453"/>
+            <path d="M63 108l3-7 3 7zM147 90l3-7 3 7zM247 108l3-7 3 7z" fill="#F6C453"/>
+          </g>
+          <!-- 顶层蛋糕 -->
+          <ellipse cx="160" cy="178" rx="110" ry="16" fill="url(#tier)"/>
+          <path d="M50 178c0-18 49-32 110-32s110 14 110 32c0 18-49 32-110 32S50 196 50 178z" fill="url(#tier)"/>
+          <ellipse cx="160" cy="178" rx="110" ry="16" fill="#FFE9EF"/>
+          <!-- 顶层奶油裱花 -->
+          <g fill="#FFF" opacity=".95">
+            <circle cx="88" cy="168" r="10"/><circle cx="130" cy="160" r="11"/><circle cx="160" cy="156" r="12"/>
+            <circle cx="190" cy="160" r="11"/><circle cx="232" cy="168" r="10"/>
+          </g>
+          <!-- 底层蛋糕 -->
+          <ellipse cx="160" cy="226" rx="132" ry="15" fill="url(#tier)"/>
+          <path d="M28 226c0-18 59-32 132-32s132 14 132 32c0 18-59 32-132 32S28 244 28 226z" fill="#F6C8D8"/>
+          <ellipse cx="160" cy="226" rx="132" ry="15" fill="#FFE9EF"/>
+          <!-- 底层裱花 -->
+          <g fill="#FFF" opacity=".95">
+            <circle cx="62" cy="216" r="9"/><circle cx="108" cy="208" r="10"/><circle cx="160" cy="205" r="11"/>
+            <circle cx="212" cy="208" r="10"/><circle cx="258" cy="216" r="9"/>
+          </g>
+          <!-- 草莓 -->
+          <g>
+            <path d="M96 176c-6 0-10-8-10-14 0-6 10-11 10-11s10 5 10 11c0 6-4 14-10 14z" fill="#E8546B"/>
+            <path d="M126 190c-5 0-8-7-8-12 0-5 8-9 8-9s8 4 8 9c0 5-3 12-8 12z" fill="#E8546B"/>
+            <path d="M194 190c-5 0-8-7-8-12 0-5 8-9 8-9s8 4 8 9c0 5-3 12-8 12z" fill="#E8546B"/>
+            <path d="M224 176c-6 0-10-8-10-14 0-6 10-11 10-11s10 5 10 11c0 6-4 14-10 14z" fill="#E8546B"/>
+          </g>
+          <!-- 托盘 -->
+          <ellipse cx="160" cy="262" rx="150" ry="18" fill="#FFF"/>
+          <path d="M10 262h300" stroke="#F3C6D4" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <button class="cake-btn" id="cakeBtn">点亮蜡烛</button>
+      <div class="celebrate" id="celebrate">
+        <div class="big">生日快乐，汪小妹妹！</div>
+        <p class="small">愿望一定会实现的，因为今天你最大～<br>许下的愿，往后的日子我都陪你一起实现。</p>
+        <div class="hearts">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.5-9C.9 8.7 2.6 5.5 5.9 5.5c1.8 0 3.4.9 4.4 2.3a5.2 5.2 0 0 1 4.4-2.3c3.3 0 5 3.2 3.4 6.5-2 4.4-9.5 9-9.5 9z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.5-9C.9 8.7 2.6 5.5 5.9 5.5c1.8 0 3.4.9 4.4 2.3a5.2 5.2 0 0 1 4.4-2.3c3.3 0 5 3.2 3.4 6.5-2 4.4-9.5 9-9.5 9z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.5-9C.9 8.7 2.6 5.5 5.9 5.5c1.8 0 3.4.9 4.4 2.3a5.2 5.2 0 0 1 4.4-2.3c3.3 0 5 3.2 3.4 6.5-2 4.4-9.5 9-9.5 9z"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 视图：给她的长文（吹灭蜡烛后出现） ===== -->
+  <section class="card letter-card" id="letterCard">
+    <div class="letter" id="letter">
+      <p class="letter-head">给汪小妹的一封信</p>
+
+      <p>今年呢，是我们一起过的一个生日。以前谁能想到，现在我们会这么要好呢～</p>
+      <p>今天这个呢，我暂且将主题定为「重走来时路」，再次来感受我们正式认识、度过这些时间。感觉呢会很话唠。</p>
+      <p>这是 24 年的 11 月 3 日的晚上，南昌已经有凉意了……</p>
+
+      <p>我们加上好友，也是因为我的一句玩笑话。不知道是谁帮我给我的心理委员穿了一句话——「十楼的风好大的，我都看不清她的模样」。下一秒心理委员就来加好友了，叫我别跳。开始是不是觉得这个卢亿怎么回事，动不动就说跳。</p>
+      <img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/UgYTb5YHBoFYMQxD1o9cscnXndt" alt="加好友当晚的聊天记录">
+      <p class="caption">加好友当晚的聊天记录</p>
+      <p>加上微信好友呢，也没啥消息没啥互动，那时候还各忙各忙。后面抖音突然就开始互关了，火花不知为何也开始续上了。但是在抖音里是不是有一句没一句地互动着，就是一种知道名字的同学、老乡和麻友的那种。</p>
+
+      <p>11 月呢还有一件大事——那个手势舞，亿哥还享有特训服务。我很记得，你是周日晚上第一次练（10 号晚上）。我说「我去看邓紫棋演唱会了，晚上我不在」（那个晚上翻窗台回的寝室）。</p>
+      <p>25 年的交流呢，也是一只手数得过来的——问问打不打麻将、提醒你续火花，这就是 25 年的缩写咯。</p>
+
+      <p>26 年，伟大转折的一年呀。年初呢，帮我们的汪妹妹圆了一下梦（帮忙抢到薛之谦广州的门票，也只是帮忙，你也抢到了）。之后的交流呢，就是关于演唱会的一些内容了。</p>
+
+      <p>转折来到清明假期～ 4 月 4 日晚提醒你都要续火花，那时候你还在你的出租房呢，我呢和我的高中同学在外面玩完了剧本杀，准备去通宵的。突然哈，突然在 5 日的凌晨 2:19 问我回去了没！</p>
+      <p>当时才知道你在外面租了房子呀，还跟我说：晚上不准给你发恐怖视频了（一个人还挺吓人的咯）。后面我记忆中是晚上一直给你发美食，然后呢，吹「非常能喝」的。</p>
+
+      <p>后面你突然就叫我去吃夜宵喝酒，当时我真的懵了呀（真叫我去喝呀，其实有点害羞，第一次跟异性单独吃夜宵，除家人哦）。我感觉那天晚上好像一直在摸脑袋。</p>
+      <p>那天是我们第一次出去，天气也很恶劣，吃到一半狂风暴雨呀，虫子很多。后面我真晕晕的了，还好我们吃完就没下雨了。后面去吾悦唱了会歌，在巅峰电竞睡的，那时候你还不会打瓦哦。</p>
+
+      <p>谁敢想，开始的我们周五玩得嗨，周日还接上（海伦司的那一次哦，还想去）。后来呀，两个人相见恨晚呀，寻得知音咯～</p>
+      <p>OKOK 呀，回忆我就是选了一点点我有的照片（还有好多好多故事）——</p>
+
+      <img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/JXVebqMoxoeT6wxIztocplaanhe" alt="晚上羽毛球">
+      <p class="caption">晚上羽毛球</p>
+      <img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/SrNHbUD3aorWMvx8QLxc7QWMnbh" alt="图书馆之旅">
+      <p class="caption">图书馆之旅</p>
+      <img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/Ws1sb7ilHo5EzbxX6Orcrj7pnrA" alt="图书馆">
+      <img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/W1nsbBujXoNL05xZIz8c8OAFnXe" alt="喜喜喜">
+      <p class="caption">喜喜喜喜喜🥝</p>
+      <img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/L1YPbuGcTozSRYxc8EhcUOxzn2b" alt="同学这里不让睡觉">
+      <p class="caption">同学这里不让睡觉</p>
+      <img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/L4I9bULPLoBLPlxEKNNcWoPpnuc" alt="晚上的野餐叫作露营">
+      <p class="caption">晚上的野餐叫作露营</p>
+      <img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/FhHwb0CTCotObSxj1wecwggPnUe" alt="第一次洋酒之旅">
+      <p class="caption">第一次洋酒之旅，打开了新世界的大门（小妹妹被喝得最狼狈的一次）</p>
+      <img src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/WdENbLpTyodxXoxEpfPc0j9KnQg" alt="广州的高铁车厢">
+      <p class="caption">汪小妹妹，我们广州见过咯～</p>
+
+      <p>自从在那次夜宵之后呀，咱们也是好上了，还好还好当时你叫我吃夜宵，还好还好当时我没有推脱。4.9 到现在呢，咱们微信的聊天日期一日都没断过呢。</p>
+      <p>我很开心也很荣幸能成为你的朋友，在这段相处的时光里，你帮了我很多，也教会了我一些事情——一些我关注不到的。也是我大一上以后真正认识的第一个咯。刚到学校的时候，虽然也只认识班上，没有很多人，但也认识了一些；回了本部以后，直接就是断绝社交的一个状态了。</p>
+      <p>还好还好我们重新认识了一下——是你让我发现当时患有「情感漠视」的——那次的「麦当劳事变」，我真害怕了。现在啊现在，好像有了那么一种依赖感了，不再依赖汪艳算长大嘛！哈哈哈哈哈哈。在我这还是有很重很重的分量的。</p>
+      <p>我最讨厌冷暴力了。之前这小朋友呀，聊到一半呢就会短暂消失了，也有可能是我的这个话呢不需要回复了（减少不必聊天）。太坏了，还有我能看到的「已读不回」，抖音为什么会有个这样坏的功能——允许我吐槽一下咯～</p>
+      <p>最后的最后，很开心很荣幸很幸运，我的世界里出现了你，你的世界里有了我～以后的日子，我们一起闯关。</p>
+
+      <p class="sign">—— 永远站你这边的人</p>
+      <!-- 我看完了 按钮 -->
+      <div class="letter-end">
+        <button class="done-btn" id="doneBtn">我看完了</button>
+        <p class="done-tip">看完记得点一下，有惊喜</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 中奖弹窗 ===== -->
+  <div class="prize-mask" id="prizeMask">
+    <div class="prize-box" role="dialog" aria-modal="true" aria-label="中奖信息">
+      <span class="prize-congrats">汪小妹妹中奖咯</span>
+      <p class="prize-main">可凭此截图找亿哥兑换任意奖品，解释权归亿哥所有</p>
+      <div class="prize-note">包包是你想要的，这个是我想送的</div>
+      <p class="prize-end">到这里就全都结束啦，快给亿哥发消息吧，打call 也行，亿哥一直在等你的信息哦</p>
+      <button class="prize-close" id="prizeClose">收下啦</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="heart-line">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.5-9C.9 8.7 2.6 5.5 5.9 5.5c1.8 0 3.4.9 4.4 2.3a5.2 5.2 0 0 1 4.4-2.3c3.3 0 5 3.2 3.4 6.5-2 4.4-9.5 9-9.5 9z"/></svg>
+      汪小妹妹 · 生日快乐
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.5-9C.9 8.7 2.6 5.5 5.9 5.5c1.8 0 3.4.9 4.4 2.3a5.2 5.2 0 0 1 4.4-2.3c3.3 0 5 3.2 3.4 6.5-2 4.4-9.5 9-9.5 9z"/></svg>
+    </div>
+    <div>和你一起的每一刻都值得庆祝</div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cakeWrap = document.getElementById('cakeWrap');
+  var cakeBtn = document.getElementById('cakeBtn');
+  var cakeHint = document.getElementById('cakeHint');
+  var celebrate = document.getElementById('celebrate');
+  var state = 'idle'; // idle | lit | blown
+
+  /* ===== 背景音乐：薛之谦祝福 → 长文时切换 Felicity ===== */
+  var bgmA = document.getElementById('bgmA'); // 薛之谦祝福
+  var bgmB = document.getElementById('bgmB'); // Felicity
+  var currentBgm = bgmA;
+  var musicBtn = document.getElementById('musicBtn');
+  var musicOn = false;
+  var phase = 'intro'; // intro | letter
+
+  function setPlaying(on){
+    musicOn = on;
+    if(on){ musicBtn.classList.add('playing'); musicBtn.setAttribute('aria-checked','true'); }
+    else{ musicBtn.classList.remove('playing'); musicBtn.setAttribute('aria-checked','false'); }
+  }
+  function startMusic(){
+    if(musicOn) return;
+    currentBgm.play().then(function(){ setPlaying(true); }).catch(function(){ /* 等待用户手势或网络就绪 */ });
+  }
+  function stopMusic(){
+    if(!musicOn) return;
+    currentBgm.pause();
+    setPlaying(false);
+  }
+  musicBtn.addEventListener('click', function(){
+    if(musicOn){ stopMusic(); }
+    else{ startMusic(); }
+  });
+
+  // 开场：点击「开始」按钮 → 全屏搞怪自拍 + 3秒倒计时 + 播放第一段音频
+  var introBtn = document.getElementById('introBtn');
+  var introCount = document.getElementById('introCount');
+  var introStarted = false;
+  introBtn.addEventListener('click', function(){
+    if(introStarted) return;
+    introStarted = true;
+    startMusic(); // 播放薛之谦祝福
+    introBtn.style.display = 'none';
+    document.getElementById('introLabel').style.display = 'none';
+    document.getElementById('introPhoto').classList.add('show');
+    introCount.classList.add('show');
+    var n = 3;
+    introCount.textContent = '3';
+    var timer = setInterval(function(){
+      n--;
+      if(n > 0){
+        introCount.textContent = n;
+        introCount.classList.remove('pulse');
+        void introCount.offsetWidth;
+        introCount.classList.add('pulse');
+      } else {
+        clearInterval(timer);
+        document.getElementById('intro').classList.add('hide');
+      }
+    }, 1000);
+  });
+
+  // 吹灭蜡烛后：切换到 Felicity
+  function switchToFelicity(){
+    if(phase === 'letter') return;
+    phase = 'letter';
+    bgmA.pause();
+    currentBgm = bgmB;
+    bgmB.currentTime = 0;
+    if(musicOn){
+      bgmB.play().then(function(){ /* 已处于播放态 */ }).catch(function(){});
+    }
+  }
+
+  /* ===== 吹蜡烛 ===== */
+  var micStream = null, micAnalyser = null, micRunning = false;
+
+  function startMic(){
+    if(micRunning || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+    navigator.mediaDevices.getUserMedia({audio:true})
+      .then(function(stream){
+        micStream = stream;
+        micAnalyser = ensureMicCtx(stream);
+        micRunning = true;
+        detectBlow();
+      }).catch(function(){ /* 拒绝/失败则只用点击吹灭 */ });
+  }
+  function ensureMicCtx(stream){
+    var mctx = new AudioCtx();
+    var src = mctx.createMediaStreamSource(stream);
+    var an = mctx.createAnalyser(); an.fftSize = 512;
+    src.connect(an);
+    return an;
+  }
+  function detectBlow(){
+    if(!micRunning || state!=='lit') return;
+    var data = new Uint8Array(micAnalyser.fftSize);
+    micAnalyser.getByteTimeDomainData(data);
+    var sum=0; for(var i=0;i<data.length;i++){ var d=(data[i]-128)/128; sum+=d*d; }
+    var rms = Math.sqrt(sum/data.length);
+    if(rms > 0.5){ blowCandles(); }
+    requestAnimationFrame(detectBlow);
+  }
+
+  function litCandles(){
+    state = 'lit';
+    cakeWrap.classList.add('lit');
+    cakeWrap.classList.remove('blown');
+    cakeBtn.textContent = '对着麦克风吹气，或点一下蜡烛';
+    cakeBtn.classList.add('alt');
+    cakeHint.textContent = '许个愿，然后把它吹灭～';
+    startMic();
+  }
+
+  function blowCandles(){
+    if(state !== 'lit') return;
+    state = 'blown';
+    cakeWrap.classList.add('blown');
+    // 烟雾
+    var smoke = cakeWrap.querySelector('.flame.smoke');
+    smoke.style.display='block';
+    setTimeout(function(){ smoke.style.display='none'; }, 1200);
+    cakeHint.textContent = '愿望收好啦～';
+    cakeBtn.style.display='none';
+    celebrate.classList.add('show');
+    document.getElementById('letterCard').classList.add('show');
+    switchToFelicity();
+    // 彩带
+    if(!reduceMotion) launchConfetti();
+  }
+
+  cakeBtn.addEventListener('click', function(){
+    if(state === 'idle'){ litCandles(); }
+    else if(state === 'lit'){ blowCandles(); }
+  });
+
+  // 点蜡烛本体也可吹灭
+  cakeWrap.addEventListener('click', function(){
+    if(state === 'lit') blowCandles();
+  });
+
+  function launchConfetti(){
+    var colors = ['#EF6F9C','#F6C453','#F9A8C4','#FFD9A0','#A8D8EA','#C9A7EB'];
+    for(var i=0;i<46;i++){
+      var c = document.createElement('div');
+      c.className = 'confetti';
+      var size = 8 + Math.random()*10;
+      c.style.width = size+'px';
+      c.style.height = (size*(0.6+Math.random()))+'px';
+      c.style.left = (Math.random()*100)+'vw';
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      c.style.borderRadius = Math.random()>0.5 ? '50%' : '2px';
+      c.style.animationDuration = (2.2 + Math.random()*2)+'s';
+      c.style.animationDelay = (Math.random()*0.5)+'s';
+      document.body.appendChild(c);
+      (function(el){ setTimeout(function(){ el.remove(); }, 5200); })(c);
+    }
+  }
+
+  // ===== 中奖弹窗：我看完了 =====
+  var prizeMask = document.getElementById('prizeMask');
+  document.getElementById('doneBtn').addEventListener('click', function(){
+    prizeMask.classList.add('show');
+  });
+  document.getElementById('prizeClose').addEventListener('click', function(){
+    prizeMask.classList.remove('show');
+  });
+  prizeMask.addEventListener('click', function(e){
+    if(e.target === prizeMask){ prizeMask.classList.remove('show'); }
+  });
+})();
+</script>
+</body>
+</html>
